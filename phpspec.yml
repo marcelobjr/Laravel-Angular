@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: Code
+        psr4_prefix: Code
+        src_path: app
