@@ -4,10 +4,11 @@ var elixir = require('laravel-elixir'),
 	gulp = require('gulp');
 
 var config = {
-	assets_path:'resources/assets',
-	build_path:'public/build',
-	bower_path:'resources/bower_componentes'
+	assets_path:'./resources/assets',
+	build_path:'./public/build',
+	bower_path:'./resources/bower_componentes'
 };
+
 
 config.build_path_js = config.build_path + '/js';
 config.build_path_vendor_js = config.build_path_js + '/vendor';
@@ -24,6 +25,8 @@ config.vendor_path_js = [
 	config.bower_path + '/angular-oauth2/dist/angular-oauth2.min.js',
 	config.bower_path + '/query-string/query-string.js'
 ];
+
+config.build_js_all = config.vendor_path_js.concat([config.assets_path + '/js/**/*.js']);
 
 config.build_path_css = config.build_path + '/css';
 config.build_path_vendor_css = config.build_path_css + '/vendor';
@@ -84,7 +87,7 @@ gulp.task('default',['clear-build-folder'], function(){
 	gulp.start('copy-html','copy-font','copy-image');
 	elixir(function(mix){
 		mix.styles(config.vendor_path_css,'public/css/all.css',config.bower_path);
-		mix.scripts(config.vendor_path_js,'public/js/all.js',config.bower_path);
+		mix.scripts(config.build_js_all,'public/js/all.js',config.bower_path);
 		mix.version(['public/js/all.js','public/css/all.css']);
 	});
 });

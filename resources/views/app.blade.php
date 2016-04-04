@@ -89,11 +89,6 @@
     <script src="{{ asset('build/js/controllers/client/clientNew.js') }}"></script>
     <script src="{{ asset('build/js/controllers/client/clientEdit.js') }}"></script>
     <script src="{{ asset('build/js/controllers/client/clientRemove.js') }}"></script>
-    <!--
-    
-    
-    
-	-->
     <!-- Services -->
     <script src="{{ asset('build/js/services/client.js') }}"></script>
     

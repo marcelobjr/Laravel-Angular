@@ -515,4 +515,179 @@ f+" > 4096 bytes)!");k.cookie=e}}c.module("ngCookies",["ng"]).provider("$cookies
 	}
 })();
 
+/**
+* app Module
+* Description
+*/
+var app = angular.module('app', ['ngRoute','angular-oauth2','app.controllers','app.services']);
+
+angular.module('app.controllers',['ngMessages','angular-oauth2']);
+angular.module('app.services',['ngResource']);
+
+app.provider('appConfig', function() {
+	var config = {
+		baseUrl: 'http://localhost:8000'
+	};
+
+	return {
+		config: config,
+		$get: function() {
+			return config;
+		}
+	}
+});
+
+app.config(['$routeProvider','OAuthProvider','OAuthTokenProvider','appConfigProvider',
+  function($routeProvider,OAuthProvider,OAuthTokenProvider,appConfigProvider) {
+    $routeProvider
+	.when('/auth/login', {
+		templateUrl: 'build/views/login.html',
+		controller: 'LoginController'
+	})
+	.when('/clients', {
+		templateUrl: 'build/views/client/clientList.html',
+		controller: 'ClientListController'
+	})
+	.when('/clients/new', {
+		templateUrl: 'build/views/client/clientNew.html',
+		controller: 'ClientNewController'
+	})
+	.when('/clients/:id/edit', {
+		templateUrl: 'build/views/client/clientEdit.html',
+		controller: 'ClientEditController'
+	})
+	.when('/clients/:id/remove', {
+		templateUrl: 'build/views/client/clientRemove.html',
+		controller: 'ClientRemoveController'
+	})
+	.when('/home', {
+		templateUrl: 'build/views/home.html',
+		controller: 'HomeController'
+	})
+	.when('/auth/register', {
+		templateUrl: 'build/views/home.html',
+		controller: 'HomeController'
+	});
+	OAuthProvider.configure({
+      baseUrl: appConfigProvider.config.baseUrl,
+      clientId: 'appid1',
+      clientSecret: 'secret', // optional
+      grantPath: '/oauth/access_token'
+    });
+    OAuthTokenProvider.configure({
+  		name: 'token',
+  		options: {
+    		secure: false
+  		}
+	});
+}]);
+
+app.run(['$rootScope', '$window', 'OAuth', function($rootScope, $window, OAuth) {
+    $rootScope.$on('oauth:error', function(event, rejection) {
+      // Ignore `invalid_grant` error - should be catched on `LoginController`.
+      if ('invalid_grant' === rejection.data.error) {
+        return;
+        
+      }
+
+      // Refresh token when a `invalid_token` error occurs.
+      if ('invalid_token' === rejection.data.error) {
+        return OAuth.getRefreshToken();
+        
+      }
+      
+      // Redirect to `/login` with the `error_reason`.
+      return $window.location.href = '#/auth/login';  //?error_reason=' + rejection.data.error;
+	});
+}]);
+angular.module('app.controllers')
+.controller('HomeController', ['$scope', function($scope)  {
+	// body...
+	
+	
+}]);
+angular.module('app.controllers')
+.controller('LoginController', ['$scope','$location','OAuth', 
+	function($scope,$location,OAuth)  {
+	// body...
+	$scope.user = {
+		username: '',
+		password: ''
+	};
+
+	$scope.login = function() {
+		if($scope.form.$valid) {
+		OAuth.getAccessToken($scope.user).then(
+		   function() {
+			$location.path('clients');
+		}, function() {
+			alert('Login Invalido');
+		});
+	}
+	};
+
+}]);
+angular.module('app.services')
+.service('Client', ['$resource','appConfig', function($resource,appConfig){
+
+	return $resource(appConfig.baseUrl + '/client/:id',{id: '@id'}, {
+		update: { method: 'PUT'}
+        
+            });
+}]);
+angular.module('app.controllers')
+.controller('ClientEditController', 
+	['$scope', '$location', '$routeParams', 'Client',
+	function($scope,$location,$routeParams,Client)  {
+
+	$scope.client = Client.get({id: $routeParams.id});
+
+	$scope.save = function () {
+		if ($scope.form.$valid) {
+			Client.update({id: $scope.client.id},$scope.client,function(){
+					$location.path('/clients');
+			});
+
+		};
+	}
+
+}]);
+angular.module('app.controllers')
+.controller('ClientListController', ['$scope', 'Client', 
+	function($scope,Client)  {
+
+	$scope.clients = Client.query();
+
+}]);
+angular.module('app.controllers')
+.controller('ClientNewController', 
+	['$scope', '$location', 'Client',
+	function($scope,$location,Client)  {
+
+	$scope.client = new Client();
+
+	$scope.save = function () {
+		if ($scope.form.$valid) {
+		$scope.client.$save().then(function(){
+			$location.path('/clients');
+		});
+		}
+	}
+
+}]);
+angular.module('app.controllers')
+.controller('ClientRemoveController', 
+	['$scope', '$location', '$routeParams', 'Client',
+	function($scope,$location,$routeParams,Client)  {
+
+	$scope.client = Client.get({id: $routeParams.id});
+
+	$scope.remove = function () {
+		$scope.client.$delete().then(function(){
+			$location.path('/clients');
+		});
+		
+	}
+
+}]);
 //# sourceMappingURL=all.js.map

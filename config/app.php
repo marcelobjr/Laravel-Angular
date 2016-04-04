@@ -155,7 +155,7 @@ return [
         Code\Providers\AuthServiceProvider::class,
         Code\Providers\EventServiceProvider::class,
         Code\Providers\RouteServiceProvider::class,
-        Code\Providers\CodeRepositoryProvider::class
+        Code\Providers\CodeRepositoryProvider::class,
 
 
     ],
