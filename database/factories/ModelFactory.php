@@ -19,6 +19,13 @@ $factory->define(Code\Entities\User::class, function (Faker\Generator $faker) {
         'remember_token' => str_random(10),
     ];
 });
+$factory->define(Code\Entities\OAuthClient::class, function () {
+    return [
+        'id' => 'appid1',
+        'secret' => 'secret',
+        'name' => 'AngularJs'
+    ];
+});
 $factory->define(Code\Entities\Client::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,

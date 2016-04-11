@@ -48,10 +48,29 @@ class ProjectNoteService
 
     public  function update(array $data, $id)
     {
+
         try{
             $this->validator->with($data)->passesOrFail();
             return $this->repository->update($data,$id);
         } catch(ValidatorException $e){
+            return [
+                'error' => true,
+                'message' => $e->getMessageBag()
+            ];
+        }
+
+    }
+
+    public  function destroy($id)
+    {
+
+        try{
+            $this->repository->delete($id);
+            return [
+                'error' => false,
+                'message' => "Deletado com Sucesso"
+            ];
+        } catch(Exception $e){
             return [
                 'error' => true,
                 'message' => $e->getMessageBag()

@@ -62,6 +62,7 @@ class ClientService
 
     public  function destroy($id)
     {
+
         try{
             $this->repository->delete($id);
             return [

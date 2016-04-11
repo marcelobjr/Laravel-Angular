@@ -3,31 +3,27 @@
 namespace Code\Transformers;
 
 use League\Fractal\TransformerAbstract;
-use Code\Entities\Client;
+use Code\Entities\User;
 
 /**
- * Class ClientTransformer
+ * Class UserTransformer
  * @package namespace Code\Transformers;
  */
-class ClientTransformer extends TransformerAbstract
+class UserTransformer extends TransformerAbstract
 {
 
     /**
-     * Transform the \Client entity
-     * @param \Client $model
+     * Transform the \User entity
+     * @param \User $model
      *
      * @return array
      */
-    public function transform(Client $model)
+    public function transform(User $model)
     {
         return [
             'id'           => (int) $model->id,
             'name'         => $model->name,
-            'responsible'  => $model->responsible,
             'email'        => $model->email,
-            'phone'        => $model->phone,
-            'address'      => $model->address,
-            'obs'          => $model->obs,
 
 
             /* place your other model properties here */

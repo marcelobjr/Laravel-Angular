@@ -41,6 +41,7 @@
 			<div class="collapse navbar-collapse" id="navbar">
 				<ul class="nav navbar-nav">
 					<li><a href="{{ url('/#/home') }}">Welcome</a></li>
+					<li><a href="{{ url('/#/clients') }}">Clientes</a></li>
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">
@@ -89,8 +90,18 @@
     <script src="{{ asset('build/js/controllers/client/clientNew.js') }}"></script>
     <script src="{{ asset('build/js/controllers/client/clientEdit.js') }}"></script>
     <script src="{{ asset('build/js/controllers/client/clientRemove.js') }}"></script>
+
+    <script src="{{ asset('build/js/controllers/project-note/projectNoteShow.js') }}"></script>
+    <script src="{{ asset('build/js/controllers/project-note/projectNoteList.js') }}"></script>
+    <script src="{{ asset('build/js/controllers/project-note/projectNoteNew.js') }}"></script>
+    <script src="{{ asset('build/js/controllers/project-note/projectNoteEdit.js') }}"></script>
+    <script src="{{ asset('build/js/controllers/project-note/projectNoteRemove.js') }}"></script>
+
     <!-- Services -->
     <script src="{{ asset('build/js/services/client.js') }}"></script>
+    <script src="{{ asset('build/js/services/projectNote.js') }}"></script>
+    <script src="{{ asset('build/js/services/user.js') }}"></script>
+
     
 @else
     <script src="{{ elixir('js/all.js') }}"></script>

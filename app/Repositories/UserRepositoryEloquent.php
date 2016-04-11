@@ -4,15 +4,17 @@ namespace Code\Repositories;
 
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-use Code\Entities\ProjectNote;
-use Code\Validators\ProjectNoteValidator;
-use Code\Presenters\ProjectNotePresenter;
+use Code\Repositories\UserRepository;
+use Code\Entities\User;
+use Code\Validators\UserValidator;
+use Code\Presenters\UserPresenter;
+
 
 /**
- * Class ProjectNoteRepositoryEloquent
- * @package namespace Code\Repositories;
+ * Class UserRepositoryEloquent
+ * @package namespace SisCentral\Repositories;
  */
-class ProjectNoteRepositoryEloquent extends BaseRepository implements ProjectNoteRepository
+class UserRepositoryEloquent extends BaseRepository implements UserRepository
 {
     /**
      * Specify Model class name
@@ -21,7 +23,7 @@ class ProjectNoteRepositoryEloquent extends BaseRepository implements ProjectNot
      */
     public function model()
     {
-        return ProjectNote::class;
+        return User::class;
     }
 
     /**
@@ -31,8 +33,7 @@ class ProjectNoteRepositoryEloquent extends BaseRepository implements ProjectNot
     */
     public function validator()
     {
-
-        return ProjectNoteValidator::class;
+        return UserValidator::class;
     }
 
 
@@ -45,10 +46,10 @@ class ProjectNoteRepositoryEloquent extends BaseRepository implements ProjectNot
     }
 
     /**
-     * @return ProjectNotePresenter
+     * @return ProjectPresenter
      */
     public function presenter()
     {
-        return ProjectNotePresenter::class;
+        return UserPresenter::class;
     }
 }
