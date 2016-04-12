@@ -2,15 +2,47 @@
 * app Module
 * Description
 */
-var app = angular.module('app', ['ngRoute','angular-oauth2','app.controllers','app.services']);
+var app = angular.module('app', ['ngRoute','angular-oauth2','app.controllers',
+  'app.services', 'app.filters']);
 
 angular.module('app.controllers',['ngMessages','angular-oauth2']);
+angular.module('app.filters',[]);
 angular.module('app.services',['ngResource']);
 
-app.provider('appConfig', function() {
+
+
+app.provider('appConfig',['$httpParamSerializerProvider', function($httpParamSerializerProvider) {
 	var config = {
-		baseUrl: 'http://localhost:8000'
-	};
+		baseUrl: 'http://localhost:8000',
+    project:{
+      status: [
+      {value:1, label: "Não Iniciado"},
+      {value:2, label: "Iniciado"},
+      {value:3, label: "Concluido"}
+      ]
+    },
+
+  utils:{
+           transformRequest: function(data){
+             if(angular.isObject(data)){
+                 return $httpParamSerializerProvider.$get()(data);
+             }
+               return data;
+           },
+           transformResponse: function(data, headers){
+               var headersGetter = headers();
+               if(headersGetter['content-type'] =='application/json' ||
+                   headersGetter['content-type'] == 'text/json') {
+                   var dataJson = JSON.parse(data);
+                   if(dataJson.hasOwnProperty('data')){
+                       dataJson = dataJson.data;
+                   }
+                   return dataJson;
+               }
+               return data;
+           }
+       }
+   } ;
 
 	return {
 		config: config,
@@ -18,22 +50,14 @@ app.provider('appConfig', function() {
 			return config;
 		}
 	}
-});
+}]);
 
 app.config(['$routeProvider','$httpProvider','OAuthProvider','OAuthTokenProvider','appConfigProvider',
   function($routeProvider,$httpProvider,OAuthProvider,OAuthTokenProvider,appConfigProvider) {
-    $httpProvider.defaults.transformResponse = function (data, headers) {
-            var headersGetter = headers();
-            if (headersGetter['content-type'] == 'application/json' ||
-             headersGetter['content-type'] == 'text/json') {
-                var dataJson = JSON.parse(data);
-                if (dataJson.hasOwnProperty('data')) {
-                    dataJson = dataJson.data;
-                }
-                return dataJson;
-            }
-            return data;
-        };
+    $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+    $httpProvider.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+    $httpProvider.defaults.transformRequest = appConfigProvider.config.utils.transformRequest;
+    $httpProvider.defaults.transformResponse = appConfigProvider.config.utils.transformResponse;
     $routeProvider
 	.when('/auth/login', {
 		templateUrl: 'build/views/login.html',
@@ -63,27 +87,48 @@ app.config(['$routeProvider','$httpProvider','OAuthProvider','OAuthTokenProvider
 		templateUrl: 'build/views/home.html',
 		controller: 'HomeController'
 	})
+    //Rotas Projects 
+  .when('/projects', {
+    templateUrl: 'build/views/projects/list.html',
+    controller: 'ProjectListController'
+  })
+  .when('/projects/new', {
+    templateUrl: 'build/views/projects/new.html',
+    controller: 'ProjectNewController'
+  })
+  .when('/projects/:id/show', {
+    templateUrl: 'build/views/projects/show.html',
+    controller: 'ProjectShowController'
+  })
+  .when('/projects/:id/edit', {
+    templateUrl: 'build/views/projects/edit.html',
+    controller: 'ProjectEditController'
+  })
+  .when('/projects/:id/remove', {
+    templateUrl: 'build/views/projects/remove.html',
+    controller: 'ProjectRemoveController'
+  })
 	// Project Notes
-    .when('/project/:id/notes', {
-        templateUrl: 'build/views/project-note/list.html',
-        controller: 'ProjectNoteListController'
-    })
-    .when('/project/:id/notes/:idNote/show', {
-        templateUrl: 'build/views/project-note/show.html',
-        controller: 'ProjectNoteShowController'
-    })
-    .when('/project/:id/notes/new', {
-        templateUrl: 'build/views/project-note/new.html',
-        controller: 'ProjectNoteNewController'
-    })
-    .when('/project/:id/notes/:idNote/edit', {
-        templateUrl: 'build/views/project-note/edit.html',
-        controller: 'ProjectNoteEditController'
-    })
-    .when('/project/:id/notes/:idNote/remove', {
-        templateUrl: 'build/views/project-note/remove.html',
-        controller: 'ProjectNoteRemoveController'
-    });
+  .when('/project/:id/notes', {
+    templateUrl: 'build/views/project-note/list.html',
+    controller: 'ProjectNoteListController'
+  })
+  .when('/project/:id/notes/:idNote/show', {
+    templateUrl: 'build/views/project-note/show.html',
+    controller: 'ProjectNoteShowController'
+  })
+  .when('/project/:id/notes/new', {
+    templateUrl: 'build/views/project-note/new.html',
+    controller: 'ProjectNoteNewController'
+  })
+  .when('/project/:id/notes/:idNote/edit', {
+    templateUrl: 'build/views/project-note/edit.html',
+    controller: 'ProjectNoteEditController'
+  })
+  .when('/project/:id/notes/:idNote/remove', {
+    templateUrl: 'build/views/project-note/remove.html',
+    controller: 'ProjectNoteRemoveController'
+  });
 	OAuthProvider.configure({
       baseUrl: appConfigProvider.config.baseUrl,
       clientId: 'appid1',

@@ -54,4 +54,8 @@ class Project extends Model implements Transformable
         return $this->hasMany(ProjectFiles::class);
     }
 
+    public function client(){
+        return $this->belongsTo(Client::class);
+    }
+
 }

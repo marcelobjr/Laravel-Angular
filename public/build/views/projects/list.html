@@ -1,0 +1,38 @@
+<div class="container-fluid">
+    <div class="row"> 
+    <a href="/#/projects/new" class="btn btn-primary" role="button">Cadastrar</a>
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">Listagem de Projetos</div>
+                <div class="panel-body">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Client</th>
+                            <th>description</th>
+                            <th>progress</th>
+                            <th>status</th>
+                            <th>due_date</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="o in projects">
+                                <td>{{o.project_name}}</td>
+                                <td>{{o.client.data.name}}</td>
+                                <td>{{o.descricao | limitTo: 45}}</td>
+                                <td>{{o.processo}}</td>
+                                <td>{{o.status}}</td>
+                                <td>{{o.due_date | dateBr}}</td>
+                                <td>
+                                    <a ng-href="#/projects/{{o.id}}/edit">Editar</a> |
+                                    <a ng-href="#/projects/{{o.id}}/remove">Excluir</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

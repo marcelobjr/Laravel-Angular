@@ -86,6 +86,24 @@ class ProjectService
 
     }
 
+    public  function destroy($id)
+    {
+
+        try{
+            $this->repository->delete($id);
+            return [
+                'error' => false,
+                'message' => "Deletado com Sucesso"
+            ];
+        } catch(Exception $e){
+            return [
+                'error' => true,
+                'message' => $e->getMessageBag()
+            ];
+        }
+
+    }
+
     /**
      * @param array $data
      */

@@ -42,6 +42,7 @@
 				<ul class="nav navbar-nav">
 					<li><a href="{{ url('/#/home') }}">Welcome</a></li>
 					<li><a href="{{ url('/#/clients') }}">Clientes</a></li>
+					<li><a href="{{ url('/#/projects') }}">Projects</a></li>
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">
@@ -91,15 +92,25 @@
     <script src="{{ asset('build/js/controllers/client/clientEdit.js') }}"></script>
     <script src="{{ asset('build/js/controllers/client/clientRemove.js') }}"></script>
 
+    <!-- Projects !-->
+	<script src="{{ asset('build/js/controllers/projects/ProjectsList.js') }}"></script>
+	<script src="{{ asset('build/js/controllers/projects/ProjectsNew.js') }}"></script>
+	<script src="{{ asset('build/js/controllers/projects/ProjectsEdit.js') }}"></script>
+	<script src="{{ asset('build/js/controllers/projects/projectsRemove.js') }}"></script>
+	<!-- Projects Note !-->
     <script src="{{ asset('build/js/controllers/project-note/projectNoteShow.js') }}"></script>
     <script src="{{ asset('build/js/controllers/project-note/projectNoteList.js') }}"></script>
     <script src="{{ asset('build/js/controllers/project-note/projectNoteNew.js') }}"></script>
     <script src="{{ asset('build/js/controllers/project-note/projectNoteEdit.js') }}"></script>
     <script src="{{ asset('build/js/controllers/project-note/projectNoteRemove.js') }}"></script>
 
+    <!-- Filters -->
+    <script src="{{ asset('build/js/filters/date-br.js') }}"></script>
+
     <!-- Services -->
     <script src="{{ asset('build/js/services/client.js') }}"></script>
     <script src="{{ asset('build/js/services/projectNote.js') }}"></script>
+    <script src="{{ asset('build/js/services/project.js') }}"></script>
     <script src="{{ asset('build/js/services/user.js') }}"></script>
 
     

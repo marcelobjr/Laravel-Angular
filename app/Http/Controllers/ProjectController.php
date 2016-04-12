@@ -43,7 +43,12 @@ class ProjectController extends Controller
     {
 
         //return $this->repository->all();
-        return $this->repository->findWhere(['owner_id'=>\Authorizer::getResourceOwnerId()]);
+        $result = $this->repository->findWhere(['owner_id'=>\Authorizer::getResourceOwnerId()]);
+        /*
+        if(isset($result['data']) && count($result['data']) ==1){
+            $result = ['data' => $result['data'][0]];
+        }*/
+        return $result;
     }
 
     /**
@@ -113,7 +118,7 @@ class ProjectController extends Controller
      */
     public function destroy($id)
     {
-        return $this->repository->destroy($id);
+        return $this->service->destroy($id);
     }
 
     /**
