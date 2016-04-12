@@ -10,7 +10,7 @@
                             <label class="col-md-4 control-label">Name</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="name" ng-model="projects.project_name"required>
+                                <input type="text" class="form-control" name="name" ng-model="projects.name"required>
                                 <div ng-messages="form.name.$error" class="help-block" ng-show="form.name.$touched">
                                     <div ng-message="required">Campo obrigatório</div>
                                 </div>
@@ -21,7 +21,7 @@
                             <label class="col-md-4 control-label">Description</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="description" ng-model="projects.descricao"required>
+                                <input type="text" class="form-control" name="description" ng-model="projects.description"required>
                                 <div ng-messages="form.description.$error" class="help-block" ng-show="form.description.$touched">
                                     <div ng-message="required">Campo obrigatório</div>
                                 </div>
@@ -33,7 +33,7 @@
 
                             <div class="col-md-6">
                                 <input type="number" class="form-control" name="progress"
-                                       ng-model="projects.processo" min="0" max="100"required>
+                                       ng-model="projects.progress" min="0" max="100"required>
                                 <div ng-messages="form.progress.$error" class="help-block" ng-show="form.progress.$touched">
                                     <div ng-message="required">Campo obrigatório</div>
                                     <div ng-message="min">Valor mínimo aceitável é 0</div>
@@ -70,11 +70,11 @@
                             <label class="col-md-4 control-label">Client</label>
 
                             <div class="col-md-6">
-                                <select class="form-control" name="client_id" ng-model="projects.client_id"
-                                        ng-options="o.id as o.name for o in clients" required>
-                                    <option value=""><-- Selecione o Cliente --></option>
 
-                                </select>
+                               <input type="text" class="form-control" name="client_id" ng-model="clientSelected" uib-typeahead="o as o.name for o in getClients($viewValue) | limitTo:10" 
+                               typeahead-input-formatter="formatName($model)"
+                               typeahead-on-select="selectClient($item)"/>
+
                                 <div ng-messages="form.client_id.$error" class="help-block" ng-show="form.client_id.$touched">
                                     <div ng-message="required">Campo obrigatório</div>
                                 </div>

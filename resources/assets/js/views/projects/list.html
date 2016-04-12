@@ -18,10 +18,10 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="o in projects">
-                                <td>{{o.project_name}}</td>
+                                <td>{{o.name}}</td>
                                 <td>{{o.client.data.name}}</td>
-                                <td>{{o.descricao | limitTo: 45}}</td>
-                                <td>{{o.processo}}</td>
+                                <td>{{o.description | limitTo: 45}}</td>
+                                <td>{{o.progress}}</td>
                                 <td>{{o.status}}</td>
                                 <td>{{o.due_date | dateBr}}</td>
                                 <td>

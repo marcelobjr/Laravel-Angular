@@ -27,11 +27,11 @@ class ProjectTransformer extends TransformerAbstract
     {
         return [
             'id'     => (int) $model->id,
-            'project_name'   => $model->name,
+            'name'   => $model->name,
             'client_id'   => $model->client_id,
             'project_owner'   => (int) $model->owner_id,
-            'descricao'   => $model->description,
-            'processo'   => (int) $model->progress,
+            'description'   => $model->description,
+            'progress'   => (int) $model->progress,
             'status'   => (int) $model->status,
             'due_date'   => $model->due_date,
 
