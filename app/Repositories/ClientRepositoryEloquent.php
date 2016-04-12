@@ -16,7 +16,7 @@ use Code\Presenters\ClientPresenter;
 class ClientRepositoryEloquent extends BaseRepository implements ClientRepository
 {
     protected $fieldSearchable = [
-    'name','email'
+    'name'
     ];
     /**
      * Specify Model class name
