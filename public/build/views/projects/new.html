@@ -77,7 +77,10 @@
                             <div class="col-md-6">
                             <input type="text" class="form-control" name="client_id" ng-model="clientSelected" uib-typeahead="o as o.name for o in getClients($viewValue) | limitTo:10" 
                                typeahead-input-formatter="formatName($model)"
-                               typeahead-on-select="selectClient($item)"/>
+                               typeahead-on-select="selectClient($item)" 
+                               typeahead-editable="false"
+                               autocomplete="off"
+                               required/>
                                 <!--<select class="form-control" name="client_id" ng-model="projects.client_id"
                                         ng-options="o.id as o.name for o in clients" required>
                                     <option value=""><- - Selecione o Cliente - -></option>
@@ -85,6 +88,7 @@
                                 </select>-->
                                 <div ng-messages="form.client_id.$error" class="help-block" ng-show="form.client_id.$touched">
                                     <div ng-message="required">Campo obrigatório</div>
+                                    <div ng-message="editable">Selecione um Cliente Válido</div>
                                 </div>
                             </div>
                         </div>
