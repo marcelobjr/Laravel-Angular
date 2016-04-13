@@ -129,6 +129,28 @@ app.config(['$routeProvider','$httpProvider','OAuthProvider','OAuthTokenProvider
   .when('/project/:id/notes/:idNote/remove', {
     templateUrl: 'build/views/project-note/remove.html',
     controller: 'ProjectNoteRemoveController'
+  })
+
+  // Project Files
+  .when('/project/:id/file', {
+    templateUrl: 'build/views/project-file/list.html',
+    controller: 'ProjectFileListController'
+  })
+  .when('/project/:id/file/:idNote/show', {
+    templateUrl: 'build/views/project-file/show.html',
+    controller: 'ProjectFileShowController'
+  })
+  .when('/project/:id/file/new', {
+    templateUrl: 'build/views/project-file/new.html',
+    controller: 'ProjectFileNewController'
+  })
+  .when('/project/:id/file/:idNote/edit', {
+    templateUrl: 'build/views/project-file/edit.html',
+    controller: 'ProjectFileEditController'
+  })
+  .when('/project/:id/file/:idNote/remove', {
+    templateUrl: 'build/views/project-file/remove.html',
+    controller: 'ProjectFileRemoveController'
   });
 	OAuthProvider.configure({
       baseUrl: appConfigProvider.config.baseUrl,
