@@ -95,7 +95,7 @@ class ProjectController extends Controller
         if($this->service->checkProjectOwner($id) == false){
             return ['error' => 'Access forbiden', 'message'=> 'Usuário não autorizado'];
         }
-        return $this->service->destroy($id);
+        $this->repository->destroy($id);
     }
 
     

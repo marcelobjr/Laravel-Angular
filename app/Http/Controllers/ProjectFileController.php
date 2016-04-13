@@ -120,7 +120,7 @@ class ProjectFileController extends Controller
         if($this->service->checkProjectOwner($id) == false){
             return ['error' => 'Access forbiden', 'message'=> 'Usuário não autorizado'];
         }
-        return $this->service->destroy($id);
+        return $this->service->delete($id);
     }
 
     /**

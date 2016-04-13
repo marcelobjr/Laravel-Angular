@@ -100,20 +100,14 @@ class ProjectService
 
     }
 
-    public  function destroy($id)
+    public  function delete($id)
     {
 
-        try{
-            $this->repository->delete($id);
-            return [
-                'error' => false,
-                'message' => "Deletado com Sucesso"
-            ];
-        } catch(Exception $e){
-            return [
-                'error' => true,
-                'message' => $e->getMessageBag()
-            ];
+        $projectFile = $this->repository->skipPresenter()->find($id);
+        $arquivo = $projectFile->id.'.'.$projectFile->extension;
+        if($this->storage->exists($arquivo)){
+            $this->storage->delete($arquivo);
+            $projectFile->delete();
         }
 
     }
