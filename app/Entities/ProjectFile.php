@@ -1,16 +1,12 @@
 <?php
 
-namespace Code\Entities;
+namespace SisCentral\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
-/**
- * Class ProjectFiles
- * @package Code\Entities
- */
-class ProjectFiles extends Model implements Transformable
+class ProjectFile extends Model implements Transformable
 {
     use TransformableTrait;
 
