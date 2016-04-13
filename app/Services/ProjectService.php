@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: marce
+ * User: Marcelo Barros
  * Date: 21/03/2016
  * Time: 22:59
  */
@@ -11,8 +11,7 @@ namespace Code\Services;
 use \Prettus\Validator\Exceptions\ValidatorException;
 use Code\Repositories\ProjectRepository;
 use Code\Validators\ProjectValidator;
-use \Illuminate\Contracts\Filesystem\Factory as Storage;
-use \Illuminate\Filesystem\Filesystem;
+
 
 class ProjectService
 {
@@ -25,16 +24,6 @@ class ProjectService
      */
     protected $validator;
 
-    /**
-     * @var Filesystem
-     */
-    protected $filesystem;
-
-    /**
-     * @var Storage
-     */
-    protected $storage;
-
 
     /**
      * ProjectService constructor.
@@ -45,14 +34,10 @@ class ProjectService
      */
     public function __construct(
         ProjectRepository $repository,
-        ProjectValidator $validator,
-        Filesystem $filesystem,
-        Storage $storage)
+        ProjectValidator $validator)
     {
         $this->repository = $repository;
         $this->validator = $validator;
-        $this->filesystem = $filesystem;
-        $this->storage = $storage;
     }
 
     public function create(array $data)
@@ -104,22 +89,38 @@ class ProjectService
 
     }
 
+
+
     /**
-     * @param array $data
+     * @param $projectId
+     * @return array
      */
-    public function createFile(array $data)
+    private function checkProjectOwner($projectId)
     {
+        $userId = \Authorizer::getResourceOwnerId();
+        return $this->repository->isOwner($projectId,$userId);
+    }
 
-        $project = $this->repository->skipPresenter()->find($data['project_id']);
+    /**
+     * @param $projectId
+     * @return mixed
+     */
+    private function checkProjectMember($projectId)
+    {
+        $userId = \Authorizer::getResourceOwnerId();
+        return $this->repository->hasMember($projectId,$userId);
+    }
 
-        $projectFile = $project->files()->create($data);
-        //name
-        //project_id
-        //description
-        //extencion
-        //file
-
-        $this->storage->put($data['name'].'.'.$data['extension'], $this->filesystem->get($data['file']));
-
+    /**
+     * @param $projectId
+     * @return bool
+     */
+    private function checkProjectPermissions($projectId)
+    {
+        if(
+    $this->checkProjectOwner($projectId) or $this->checkProjectMember($projectId)){
+         return true;
+        }
+        return false;
     }
 }

@@ -5,32 +5,32 @@ namespace Code\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-use Code\Repositories\ProjectRepository;
-use Code\Services\ProjectService;
+use Code\Repositories\ProjectFileRepository;
+use Code\Services\ProjectFileService;
 
 
 /**
- * Class ProjectController
+ * Class ProjectFileController
  * @package Code\Http\Controllers
  */
 class ProjectFileController extends Controller
 {
 
     /**
-     * @var ProjectRepository
+     * @var ProjectFileRepository
      */
     private $repository;
     /**
-     * @var ProjectService
+     * @var ProjectFileService
      */
     private $service;
 
     /**
-     * testClientController constructor.
-     * @param ProjectRepository $repository
-     * @param ProjectService $service
+     * ProjectFileController constructor.
+     * @param ProjectFileRepository $repository
+     * @param ProjectFileService $service
      */
-    public function __construct(ProjectRepository $repository, ProjectService $service)
+    public function __construct(ProjectFileRepository $repository, ProjectFileService $service)
     {
         $this->repository = $repository;
         $this->service = $service;
@@ -41,21 +41,9 @@ class ProjectFileController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-
-        //return $this->repository->all();
-        return $this->repository->findWhere(['owner_id'=>\Authorizer::getResourceOwnerId()]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+    return $this->repository->findWhere(['project_id'=>$id]);
     }
 
     /**
@@ -74,8 +62,6 @@ class ProjectFileController extends Controller
         $data['description'] = $request->description;
 
         $this->service->createFile($data);
-
-        //return $this->service->create($request->all());
     }
 
     /**
@@ -84,25 +70,30 @@ class ProjectFileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function showFile($id)
+    {
+        if($this->service->checkProjectPermissions($id) == false)
+        {
+            return ['error' => 'Access forbiden', 'message'=> 'Usuário não autorizado'];
+        }
+        return response()->download($this->service->getFilePath($id));
+    }
+
+   /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function show($id)
     {
-        if($this->checkProject($id) == false)
+        if($this->service->checkProjectPermissions($id) == false)
         {
             return ['error' => 'Access forbiden', 'message'=> 'Usuário não autorizado'];
         }
         return $this->repository->find($id);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -113,8 +104,10 @@ class ProjectFileController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if($this->service->checkProjectOwner($id) == false){
+            return ['error' => 'Access forbiden', 'message'=> 'Usuário não autorizado'];
+        }
         return $this->service->update($request->all(),$id);
-    }
 
     /**
      * Remove the specified resource from storage.
@@ -124,7 +117,10 @@ class ProjectFileController extends Controller
      */
     public function destroy($id)
     {
-        return $this->repository->destroy($id);
+        if($this->service->checkProjectOwner($id) == false){
+            return ['error' => 'Access forbiden', 'message'=> 'Usuário não autorizado'];
+        }
+        return $this->service->destroy($id);
     }
 
     /**
