@@ -51,7 +51,7 @@ class Project extends Model implements Transformable
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function files(){
-        return $this->hasMany(ProjectFiles::class);
+        return $this->hasMany(ProjectFile::class);
     }
 
     public function client(){

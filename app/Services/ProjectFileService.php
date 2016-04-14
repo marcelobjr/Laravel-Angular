@@ -10,11 +10,13 @@ namespace Code\Services;
 
 use \Prettus\Validator\Exceptions\ValidatorException;
 use Code\Repositories\ProjectFileRepository;
-use Code\Validators\ProjectValidator;
+use Code\Repositories\ProjectRepository;
+use Code\Entities\Project;
+use Code\Validators\ProjectFileValidator;
 use \Illuminate\Contracts\Filesystem\Factory as Storage;
 use \Illuminate\Filesystem\Filesystem;
 
-class ProjectService
+class ProjectFileService
 {
     /**
      * @var ProjectFileRepository
@@ -52,7 +54,7 @@ class ProjectService
     public function __construct(
         ProjectFileRepository $repository,
         ProjectRepository $projectRepository,
-        ProjectValidator $validator,
+        ProjectFileValidator $validator,
         Filesystem $filesystem,
         Storage $storage)
     {
@@ -70,7 +72,7 @@ class ProjectService
             $this->validator->with($data)->passesOrFail();
 
         $project = $this->projectRepository->skipPresenter()->find($data['project_id']);
-        $projectFile = $project->file()->create($data);
+        $projectFile = $project->files()->create($data);
         $this->storage->put($projectFile->id . "." . $data['extension'],
             $this->filesystem->get($data['file']));    
 
@@ -139,7 +141,7 @@ class ProjectService
     public function createFile(array $data)
     {
 
-        $project = $this->repository->skipPresenter()->find($data['project_id']);
+        $project = $this->projectRepository->skipPresenter()->find($data['project_id']);
 
         $projectFile = $project->files()->create($data);
         //name

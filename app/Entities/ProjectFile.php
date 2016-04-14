@@ -1,6 +1,6 @@
 <?php
 
-namespace SisCentral\Entities;
+namespace Code\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;

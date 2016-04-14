@@ -23,7 +23,7 @@ app.provider('appConfig',['$httpParamSerializerProvider', function($httpParamSer
       ]
     },
     urls: {
-      projectFile: 'project/{{id}}/file/{{idFile}}'
+      projectFile: '/project/{{id}}/file/{{idFile}}'
     },
     utils:{
            transformRequest: function(data){

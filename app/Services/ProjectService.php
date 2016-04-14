@@ -115,7 +115,7 @@ class ProjectService
      * @param $projectId
      * @return bool
      */
-    public function checkProjectPermissions($projectId)
+    private function checkProjectPermissions($projectId)
     {
         if($this->checkProjectOwner($projectId) or $this->checkProjectMember($projectId)){
          return true;

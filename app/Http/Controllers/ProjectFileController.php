@@ -61,7 +61,8 @@ class ProjectFileController extends Controller
         $data['project_id'] = $request->project_id;
         $data['description'] = $request->description;
 
-        $this->service->createFile($data);
+        
+        return $this->service->create($data);
     }
 
     /**
@@ -109,6 +110,8 @@ class ProjectFileController extends Controller
         }
         return $this->service->update($request->all(),$id);
 
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -120,44 +123,8 @@ class ProjectFileController extends Controller
         if($this->service->checkProjectOwner($id) == false){
             return ['error' => 'Access forbiden', 'message'=> 'Usuário não autorizado'];
         }
-        return $this->service->delete($id);
+        return $this->service->destroy($id);
     }
 
-    /**
-     * @param $projectId
-     * @return array
-     */
-    private function checkProjectOwner($projectId)
-    {
-        $userId = \Authorizer::getResourceOwnerId();
-        return $this->repository->isOwner($projectId,$userId);
-    }
-
-    /**
-     * @param $projectId
-     * @return mixed
-     */
-    private function checkProjectMember($projectId)
-    {
-        $userId = \Authorizer::getResourceOwnerId();
-        return $this->repository->hasMember($projectId,$userId);
-    }
-
-    /**
-     * @param $projectId
-     * @return bool
-     */
-    private function checkProject($projectId)
-    {
-        if(
-        $this->checkProjectOwner($projectId) or
-        $this->checkProjectMember($projectId)
-        )
-        {
-         return true;
-        }
-        return false;
-    }
-
-
+    
 }
