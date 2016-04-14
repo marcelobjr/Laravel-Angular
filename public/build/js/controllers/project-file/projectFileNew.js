@@ -4,17 +4,16 @@ angular.module('app.controllers')
             function ($scope, $location, $routeParams, Upload) {
                 //$scope.projectFile = new ProjectFile();
             $scope.projectFile = {
-                project_id:$routeParams.id;
-            }
+                project_id:$routeParams.id
+            };
 
-                 Upload.upload({
+            Upload.upload({
             url: 'upload/url',
-            data: {
-                file: $scope.projectFile.file,
-                'name': $scope.projectFile.name,
-                'description': $scope.projectFile.description,
+            file: $scope.projectFile.file,
+            name: $scope.projectFile.name,
+            description: $scope.projectFile.description
 
-            }
+
         }).then(function (resp) {
             $location.path('/project/'+ $routeParams.id + '/files');
         });
