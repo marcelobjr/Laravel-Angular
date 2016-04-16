@@ -128,7 +128,7 @@ class ProjectFileService
      */
     public function getBaseURL($projectFile)
     {
-        switch ($this->storage->getDefaultDrive()) {
+        switch ($this->storage->getDefaultDriver()) {
             case 'local':
                 return $this->storage->getDriver()->getAdapter()->getPathPrefix()
                 .'/'.$projectFile->id.'.'. $projectFile->extension;
