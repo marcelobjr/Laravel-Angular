@@ -7,9 +7,9 @@ angular.module('app.services')
 				return urlMod.replace(/\/\//g,'/')
 							 .replace(/\/$/,'');
 			},
-				getUrlResource: function(url){
+			getUrlResource: function(url){
 					return url.replace(new RegExp('{{','g'),':')
-					.replace(new RegExp('}}','g'),'')
+							  .replace(new RegExp('}}','g'),'');
 			}
 		};
 }]);
