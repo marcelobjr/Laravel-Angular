@@ -24,6 +24,10 @@ class ProjectFile extends Model implements Transformable
         'extension'
     ];
 
+    public function getFileName(){
+        return $this->id .'.'. $this->extension;
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

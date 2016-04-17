@@ -73,7 +73,7 @@ class ProjectFileService
 
         $project = $this->projectRepository->skipPresenter()->find($data['project_id']);
         $projectFile = $project->files()->create($data);
-        $this->storage->put($projectFile->id . "." . $data['extension'],
+        $this->storage->put($projectFile->getFileName(),
             $this->filesystem->get($data['file']));    
 
             return $projectFile;
@@ -106,7 +106,7 @@ class ProjectFileService
     {
 
         $projectFile = $this->repository->skipPresenter()->find($id);
-        $arquivo = $projectFile->id.'.'.$projectFile->extension;
+        $arquivo = $projectFile->getFileName();
         if($this->storage->exists($arquivo)){
             $this->storage->delete($arquivo);
             $projectFile->delete();
@@ -123,6 +123,13 @@ class ProjectFileService
         return $this->getBaseURL($projectFile);
     }
 
+    public function getFileName($id)
+    {
+        $projectFile = $this->repository->skipPresenter()->find($id);
+        return $projectFile->getFileName();
+    }
+
+
     /**
      * @param array $id
      */
@@ -131,7 +138,7 @@ class ProjectFileService
         switch ($this->storage->getDefaultDriver()) {
             case 'local':
                 return $this->storage->getDriver()->getAdapter()->getPathPrefix()
-                .'/'.$projectFile->id.'.'. $projectFile->extension;
+                .'/'.$projectFile->getFileName();
         }
     }
 
@@ -188,4 +195,6 @@ class ProjectFileService
         }
         return false;
     }
+
+
 }
