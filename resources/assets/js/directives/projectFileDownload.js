@@ -4,12 +4,20 @@ angular.module('app.directives')
 
 	return {
 		restrict:'E',
-		templateUrl: appConfig.baseUrl + 'build/views/templates/projectFileDownload.html',
+		templateUrl: appConfig.baseUrl + '/build/views/templates/projectFileDownload.html',
 		link: function(scope,element,attr){
 
 		},
-		controller: ['$scope','$atrrs',function($scope,$atrrs){
+		controller: ['$scope','$attrs','$element',function($scope,$attrs,$element){
+			$scope.downloadFile = function() {
+				var anchor = $element.children()[0];
+				$(anchor).addClass('disabled');
+				$(anchor).text('Loading...');
+				ProjectFile.download({id: null, idFile:$attrs.idFile}, 
+					function(data){
 
+					});
+			};
 		}]
 
 	}

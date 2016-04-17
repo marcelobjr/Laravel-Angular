@@ -8,15 +8,17 @@ angular.module('app.directives')
 		link: function(scope,element,attr){
 
 		},
-		controller: ['$scope','$element','$attrs', 
-			function($scope,$element,$attrs){
-			
-			$scope.downloadFile = function(){
+		controller: ['$scope','$attrs','$element',function($scope,$attrs,$element){
+			$scope.downloadFile = function() {
 				var anchor = $element.children()[0];
 				$(anchor).addClass('disabled');
-				$(anchor).text('Carregando...');
+				$(anchor).text('Loading...');
+				ProjectFile.download({id: null, idFile:$attrs.idFile}, 
+					function(data){
+
+					});
 			};
 		}]
 
-	};
+	}
 }]);

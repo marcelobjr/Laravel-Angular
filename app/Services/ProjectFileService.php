@@ -180,7 +180,7 @@ class ProjectFileService
      * @param $projectId
      * @return bool
      */
-    private function checkProjectPermissions($projectFileId)
+    public function checkProjectPermissions($projectFileId)
     {
         if(
     $this->checkProjectOwner($projectFileId) or $this->checkProjectMember($projectFileId)){
