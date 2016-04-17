@@ -8,7 +8,8 @@ angular.module('app.directives')
 		link: function(scope,element,attr){
 
 		},
-		controller: ['$scope','$attrs','$element',function($scope,$attrs,$element){
+		controller: ['$scope','$attrs','$element','$timeout',
+		function($scope,$attrs,$element,$timeout){
 			$scope.downloadFile = function() {
 				var anchor = $element.children()[0];
 				$(anchor).addClass('disabled');
@@ -21,6 +22,11 @@ angular.module('app.directives')
 							href: 'data:application-octet-stream;base64,'+ data.file,
 							download: data.name
 						});
+						$timeout(function(){
+							$scope.downloadFile=function(){};
+							$(anchor)[0].click();
+						});
+						
 					});
 			};
 		}]
