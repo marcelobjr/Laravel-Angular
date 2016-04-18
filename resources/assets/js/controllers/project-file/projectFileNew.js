@@ -22,7 +22,7 @@ angular.module('app.controllers')
                     }
 
                 }).then(function (resp) {
-                    $location.path('/projects' + $routeParams.id + '/files');
+                    $location.path('/project/' + $routeParams.id + '/file');
                     });   
             };
         }

@@ -70,7 +70,8 @@ class ProjectFileService
     {
 
         try{
-            $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_CREATE);
+            $this->validator->with($data)->passesOrFail(
+                ValidatorInterface::RULE_CREATE);
 
         $project = $this->projectRepository->skipPresenter()->find($data['project_id']);
         $projectFile = $project->files()->create($data);

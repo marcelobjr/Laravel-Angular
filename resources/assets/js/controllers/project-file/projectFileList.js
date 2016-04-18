@@ -3,4 +3,5 @@ angular.module('app.controllers')
         '$scope', '$routeParams', 'ProjectFile', 
         function ($scope, $routeParams, ProjectFile) {
             $scope.projectFiles = ProjectFile.query({id: $routeParams.id});
+            $scope.projectId = $routeParams.id;
         }]);
