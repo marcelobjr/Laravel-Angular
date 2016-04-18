@@ -9,6 +9,7 @@
 namespace Code\Services;
 
 use \Prettus\Validator\Exceptions\ValidatorException;
+use \Prettus\Validator\Contracts\ValidatorInterface;
 use Code\Repositories\ProjectFileRepository;
 use Code\Repositories\ProjectRepository;
 use Code\Entities\Project;
@@ -69,7 +70,7 @@ class ProjectFileService
     {
 
         try{
-            $this->validator->with($data)->passesOrFail();
+            $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_CREATE);
 
         $project = $this->projectRepository->skipPresenter()->find($data['project_id']);
         $projectFile = $project->files()->create($data);
@@ -91,7 +92,7 @@ class ProjectFileService
     public  function update(array $data, $id)
     {
         try{
-            $this->validator->with($data)->passesOrFail();
+            $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_UPDATE);
             return $this->repository->update($data,$id);
         } catch(ValidatorException $e){
             return [

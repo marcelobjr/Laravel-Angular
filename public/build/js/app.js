@@ -139,7 +139,7 @@ app.config(['$routeProvider','$httpProvider','OAuthProvider','OAuthTokenProvider
     templateUrl: 'build/views/project-file/list.html',
     controller: 'ProjectFileListController'
   })
-  .when('/project/:id/file/:idNote/show', {
+  .when('/project/:id/file/:idFile/show', {
     templateUrl: 'build/views/project-file/show.html',
     controller: 'ProjectFileShowController'
   })
@@ -147,11 +147,11 @@ app.config(['$routeProvider','$httpProvider','OAuthProvider','OAuthTokenProvider
     templateUrl: 'build/views/project-file/new.html',
     controller: 'ProjectFileNewController'
   })
-  .when('/project/:id/file/:idNote/edit', {
+  .when('/project/:id/file/:idFile/edit', {
     templateUrl: 'build/views/project-file/edit.html',
     controller: 'ProjectFileEditController'
   })
-  .when('/project/:id/file/:idNote/remove', {
+  .when('/project/:id/file/:idFile/remove', {
     templateUrl: 'build/views/project-file/remove.html',
     controller: 'ProjectFileRemoveController'
   });
