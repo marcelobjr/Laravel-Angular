@@ -39,15 +39,6 @@ class ProjectNoteController extends Controller
         return $this->repository->findWhere(['project_id' => $id]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -55,9 +46,11 @@ class ProjectNoteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$id)
     {
-        return $this->service->create($request->all());
+        $data = $request->all();
+        $data['project_id'] = $id;
+        return $this->service->create($data);
     }
 
     /**
@@ -75,16 +68,6 @@ class ProjectNoteController extends Controller
         return $result;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -93,18 +76,21 @@ class ProjectNoteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $noteId)
+    public function update(Request $request, $id, $noteId)
     {
-        return $this->service->update($request->all(),$noteId);
+        $data = $request->all();
+        $data['project_id'] = $id;
+        return $this->service->update($data,$noteId);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
+     * @param  int  $noteId
      * @return \Illuminate\Http\Response
      */
-    public function destroy($noteId)
+    public function destroy($id, $noteId)
     {
         return $this->service->destroy($noteId);
     }
