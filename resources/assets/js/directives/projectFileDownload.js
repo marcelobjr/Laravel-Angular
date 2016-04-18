@@ -28,6 +28,7 @@ angular.module('app.directives')
                         $(anchor).addClass('disabled');
                         $(anchor).text('Loading...');
                         ProjectFile.download({id: $attrs.idProject, idFile: $attrs.idFile}, function (data) {
+                            //data.name = $scope.o.name + '.'+ $scope.o.extension;
                             $scope.$emit('save-file', data);
                     });
                 }
