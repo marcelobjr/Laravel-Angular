@@ -94,7 +94,7 @@ class ProjectService
      * @param $projectId
      * @return array
      */
-    private function checkProjectOwner($projectId)
+    public function checkProjectOwner($projectId)
     {
         $userId = \Authorizer::getResourceOwnerId();
         return $this->repository->isOwner($projectId,$userId);
@@ -104,7 +104,7 @@ class ProjectService
      * @param $projectId
      * @return mixed
      */
-    private function checkProjectMember($projectId)
+    public function checkProjectMember($projectId)
     {
         $userId = \Authorizer::getResourceOwnerId();
         return $this->repository->hasMember($projectId,$userId);

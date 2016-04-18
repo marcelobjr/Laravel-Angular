@@ -165,7 +165,7 @@ class ProjectFileService
      * @param $projectId
      * @return array
      */
-    private function checkProjectOwner($projectFileId)
+    public function checkProjectOwner($projectFileId)
     {
         $userId = \Authorizer::getResourceOwnerId();
         $projectId = $this->repository->skipPresenter()->find($projectFileId)->project_id;
@@ -176,7 +176,7 @@ class ProjectFileService
      * @param $projectId
      * @return mixed
      */
-    private function checkProjectMember($projectId)
+    public function checkProjectMember($projectId)
     {
         $userId = \Authorizer::getResourceOwnerId();
         $projectId = $this->repository->skipPresenter()->find($projectFileId)->project_id;
