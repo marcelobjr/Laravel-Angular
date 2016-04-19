@@ -3,22 +3,22 @@
 namespace Code\Http\Middleware;
 
 use Closure;
-use Code\Repositories\ProjectRepository;
+use Code\Services\projectService;
 
 class CheckProjectOwner
 {
     /**
-     * @var ProjectRepository
+     * @var projectService
      */
-    private $repository;
+    private $service;
 
     /**
      * CheckProjectOwner constructor.
-     * @param ProjectRepository $repository
+     * @param projectService $service
      */
-    public function __construct(ProjectRepository $repository)
+    public function __construct(projectService $service)
     {
-        $this->repository = $repository;
+        $this->service = $service;
     }
 
     /**
@@ -30,13 +30,12 @@ class CheckProjectOwner
      */
     public function handle($request, Closure $next)
     {
-        $userId = \Authorizer::getResourceOwnerId();
-        $projectId = $request->project;
+        $projectId = $request->route('id') ? $request->route('id') : $request->route('project');
 
-        if($this->repository->isOwner($projectId,$userId) == false)
-        {
-            return ['error' => 'Access forbiden', 'message'=> 'Usuário não autorizado'];
+        if ($this->service->checkProjectOwner($projectId) == false) {
+            return ['error' => 'Access forbidden.'];
         }
+
         return $next($request);
     }
 }

@@ -153,49 +153,8 @@ class ProjectFileService
         $project = $this->projectRepository->skipPresenter()->find($data['project_id']);
 
         $projectFile = $project->files()->create($data);
-        //name
-        //project_id
-        //description
-        //extencion
-        //file
-
         $this->storage->put($data['name'].'.'.$data['extension'], $this->filesystem->get($data['file']));
 
-    }
-
-    /**
-     * @param $projectId
-     * @return array
-     */
-    public function checkProjectOwner($projectFileId)
-    {
-        $userId = \Authorizer::getResourceOwnerId();
-        $projectId = $this->repository->skipPresenter()->find($projectFileId)->project_id;
-        return $this->projectRepository->isOwner($projectId,$userId);
-    }
-
-    /**
-     * @param $projectId
-     * @return mixed
-     */
-    public function checkProjectMember($projectId)
-    {
-        $userId = \Authorizer::getResourceOwnerId();
-        $projectId = $this->repository->skipPresenter()->find($projectFileId)->project_id;
-        return $this->projectRepository->hasMember($projectId,$userId);
-    }
-
-    /**
-     * @param $projectId
-     * @return bool
-     */
-    public function checkProjectPermissions($projectFileId)
-    {
-        if(
-    $this->checkProjectOwner($projectFileId) or $this->checkProjectMember($projectFileId)){
-         return true;
-        }
-        return false;
     }
 
 
