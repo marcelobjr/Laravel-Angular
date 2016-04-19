@@ -71,21 +71,18 @@ class ProjectFileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function showFile($id)
+    public function showFile($id, $fileId)
     {
-        if($this->service->checkProjectPermissions($id) == false)
-        {
-            return ['error' => 'Access forbiden', 'message'=> 'Usuário não autorizado'];
-        }
-        $filePath = $this->service->getFilePath($id);
+
+        $filePath = $this->service->getFilePath($fileId);
         $fileContent = file_get_contents($filePath);
         $file64 = base64_encode($fileContent);
         return [
             'file' => $file64,
             'size' => filesize($filePath),
-            'name' => $this->service->getFileName($id)
+            'name' => $this->service->getFileName($fileId)
         ];
-        //return response()->download($this->service->getFilePath($id));
+
     }
 
    /**
@@ -94,13 +91,9 @@ class ProjectFileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, $fileId)
     {
-        if($this->service->checkProjectPermissions($id) == false)
-        {
-            return ['error' => 'Access forbiden', 'message'=> 'Usuário não autorizado'];
-        }
-        return $this->repository->find($id);
+        return $this->repository->find($fileId);
     }
 
 
@@ -111,12 +104,11 @@ class ProjectFileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id, $fileId)
     {
-        if($this->service->checkProjectOwner($id) == false){
-            return ['error' => 'Access forbiden', 'message'=> 'Usuário não autorizado'];
-        }
-        return $this->service->update($request->all(),$id);
+        $data = $request->all();
+        $data['project_id'] = $id;
+        return $this->service->update($data,$fileId);
 
     }
 
@@ -126,12 +118,9 @@ class ProjectFileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, $fileId)
     {
-        if($this->service->checkProjectOwner($id) == false){
-            return ['error' => 'Access forbiden', 'message'=> 'Usuário não autorizado'];
-        }
-        return $this->service->delete($id); 
+        return $this->service->delete($fileId); 
     }
 
     

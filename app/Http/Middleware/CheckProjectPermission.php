@@ -1,9 +1,9 @@
 <?php
 
-namespace CodeProject\Http\Middleware;
+namespace Code\Http\Middleware;
 
 use Closure;
-use CodeProject\Services\ProjectService;
+use Code\Services\ProjectService;
 
 class CheckProjectPermission
 {

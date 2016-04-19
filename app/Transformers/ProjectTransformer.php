@@ -34,6 +34,7 @@ class ProjectTransformer extends TransformerAbstract
             'progress'   => (int) $model->progress,
             'status'   => (int) $model->status,
             'due_date'   => $model->due_date,
+            'is_member' => $model->owner_id != \Authorizer::getResourceOwnerId()
 
 
 

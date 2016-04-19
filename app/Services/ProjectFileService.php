@@ -12,7 +12,7 @@ use \Prettus\Validator\Exceptions\ValidatorException;
 use \Prettus\Validator\Contracts\ValidatorInterface;
 use Code\Repositories\ProjectFileRepository;
 use Code\Repositories\ProjectRepository;
-use Code\Entities\Project;
+use Code\Entities\ProjectFile;
 use Code\Validators\ProjectFileValidator;
 use \Illuminate\Contracts\Filesystem\Factory as Storage;
 use \Illuminate\Filesystem\Filesystem;
