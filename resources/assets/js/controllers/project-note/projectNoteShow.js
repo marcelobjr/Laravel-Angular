@@ -6,7 +6,8 @@ angular.module('app.controllers')
 
                 $scope.update = function () {
                     if ($scope.form.$valid) {
-                        ProjectNote.update({id: $scope.projectNote.id}, $scope.projectNote, function () {
+                        ProjectNote.update({
+                            id: $scope.projectNote.id}, $scope.projectNote, function () {
                             $location.path('/clients')
                         });
                     }

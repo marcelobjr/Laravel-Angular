@@ -9,7 +9,7 @@ angular.module('app.controllers')
 
                 $scope.remove = function () {
                     $scope.projectFile.$delete({
-                        id:$scope.projectFile.project_id, 
+                        id:$routeParams.id,
                         idFile:$scope.projectFile.id
                     }).then(function () {
                         $location.path('/project/'+ $routeParams.id + '/file')
